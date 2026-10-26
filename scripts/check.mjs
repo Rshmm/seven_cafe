@@ -1,0 +1,27 @@
+import { readFile } from "node:fs/promises";
+import assert from "node:assert/strict";
+
+const catalog = await readFile("src/catalog.js", "utf8");
+const storage = await readFile("src/storage.js", "utf8");
+const app = await readFile("src/app.js", "utf8");
+const styles = await readFile("styles.css", "utf8");
+assert.match(catalog, /espresso/);
+assert.match(catalog, /latte/);
+assert.match(storage, /localStorage/);
+assert.match(storage, /sessionStorage/);
+assert.match(app, /900000/);
+assert.match(app, /readyAt/);
+assert.match(app, /storage/);
+assert.match(app, /updateTableUrl/);
+assert.match(app, /normalizeTable\(order\.table\)/);
+assert.match(app, /trash-icon/);
+assert.match(app, /filters-viewport/);
+assert.doesNotMatch(app, /href="\/kitchen"/);
+assert.doesNotMatch(app, /href="\/?\?table=7"/);
+assert.match(styles, /overflow-x:auto/);
+assert.match(styles, /touch-action:auto/);
+assert.match(styles, /width:max-content/);
+assert.match(styles, /min-width:100%/);
+assert.doesNotMatch(styles, /body[^}]*overflow-x:\s*hidden/);
+assert.match(styles, /\.qty \.remove/);
+console.log("Static checks passed.");
